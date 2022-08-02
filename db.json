@@ -1,0 +1,28 @@
+{
+  "clients": [
+    {
+      "name": "asset",
+      "company": "55",
+      "email": "balgaci@yahoo.es",
+      "phone": "+52 554 217 1734",
+      "notes": "",
+      "id": 1
+    },
+    {
+      "name": "asset",
+      "company": "55",
+      "email": "bgarzon@softel.mx",
+      "phone": "+52 554 217 1734",
+      "notes": "",
+      "id": 2
+    },
+    {
+      "name": "backend",
+      "company": "55",
+      "email": "balgaci@yahoo.es",
+      "phone": "+52 554 217 1734",
+      "notes": "",
+      "id": 3
+    }
+  ]
+}
