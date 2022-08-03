@@ -3,9 +3,11 @@ import * as Yup from 'yup'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Alert from './Alert'
+import Spinner from './Spinner'
+import Client from './Client'
 
 
-const ApplicationForm = ({client}) => {
+const ApplicationForm = ({client, loading}) => {
 
     const navigate = useNavigate()
     const clientSchema = Yup.object().shape({
@@ -18,15 +20,28 @@ const ApplicationForm = ({client}) => {
 
     const handleSubmit = async (values)=>{
         try {
-            const url="http://localhost:4000/clients"
-            const response = await fetch(url, {
-                method:"POST",
-                body:JSON.stringify(values),
-                headers:{
-                    "Content-Type":"application/json"
-                }                
-            })
-            const result = await response.json()                        
+            let response;
+            if (client.id){
+                const url=`${import.meta.env.VITE_API_URL}/${client.id}`
+                response = await fetch(url, {
+                    method:"PUT",
+                    body:JSON.stringify(values),
+                    headers:{
+                        "Content-Type":"application/json"
+                    }                
+                })    
+            }
+            else{
+                const url=import.meta.env.VITE_API_URL
+                response = await fetch(url, {
+                    method:"POST",
+                    body:JSON.stringify(values),
+                    headers:{
+                        "Content-Type":"application/json"
+                    }                
+                })    
+            }
+            await response.json()                        
             navigate('/clients')
         } catch (error) {
             console.log(error)
@@ -34,6 +49,8 @@ const ApplicationForm = ({client}) => {
         //console.log(values)
     }
   return (
+    loading ? Spinner : (
+
     <div className='bg-white mt-10 px-5 py-10 rounded-md shadow-md md:w-3/4 mx-auto'>
         <h1 className='text-gray-600 font-bold text-xl uppercase text-center '>{client?.name ? "Edit client": "Add client"}</h1>    
 
@@ -150,11 +167,13 @@ const ApplicationForm = ({client}) => {
             )}}
         </Formik>
     </div>
+    )
   )
 }
 
 ApplicationForm.defaultProps ={
-    client:{}
+    client:{},
+    loading:false
   }
   
 

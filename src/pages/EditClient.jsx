@@ -15,7 +15,7 @@ const EditClient = () => {
       
       const getClient = async () =>{
           try {
-              const url = `http://localhost:4000/clients/${id}`
+              const url = `${import.meta.env.VITE_API_URL}/${id}`
               const response = await fetch(url)
               const result = await response.json()                    
               setClient(result)
@@ -32,7 +32,10 @@ const EditClient = () => {
       <div>
         <h1 className='text-4xl text-blue-900 font-bold'>Edit Client</h1>
         <p className='mt-3'>Use this form to edit client</p>
-        <ApplicationForm client={client}/>
+
+        {client?.name ? (
+          <ApplicationForm client={client} loading={loading}/>
+        ) : <p>Invalid Client ID </p>}
       </div>
     )
 }
