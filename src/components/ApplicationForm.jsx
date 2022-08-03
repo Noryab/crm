@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import Alert from './Alert'
 
 
-const ApplicationForm = () => {
+const ApplicationForm = ({client}) => {
 
     const navigate = useNavigate()
     const clientSchema = Yup.object().shape({
@@ -35,16 +35,17 @@ const ApplicationForm = () => {
     }
   return (
     <div className='bg-white mt-10 px-5 py-10 rounded-md shadow-md md:w-3/4 mx-auto'>
-        <h1 className='text-gray-600 font-bold text-xl uppercase text-center '>Add client</h1>    
+        <h1 className='text-gray-600 font-bold text-xl uppercase text-center '>{client?.name ? "Edit client": "Add client"}</h1>    
 
         <Formik 
             initialValues={{
-                name:"",
-                company:"",
-                email:"",
-                phone:"",
-                notes:""
+                name:client?.name ?? client?.name ?? "",
+                company:client?.company ?? "",
+                email:client?.email ?? "",
+                phone:client?.phone ?? "",
+                notes:client?.notes ?? "",  
             }}
+            enableReinitialize={true}
             onSubmit={async(values, {resetForm})=>{
                 await handleSubmit(values)
                 resetForm()
@@ -141,7 +142,7 @@ const ApplicationForm = () => {
 
                 <input
                     type="submit"
-                    value="Add client"
+                    value={client?.name ? "Edit client": "Add client"}
                     className='mt-5 w-full bg-blue-800 p-3 text-white uppercase font-bold text-lg'
                 />
 
@@ -151,5 +152,10 @@ const ApplicationForm = () => {
     </div>
   )
 }
+
+ApplicationForm.defaultProps ={
+    client:{}
+  }
+  
 
 export default ApplicationForm
