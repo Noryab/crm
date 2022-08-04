@@ -7,10 +7,12 @@ const Init = () => {
   
   const [clients, setClients] = useState([])
 
+  console.log(import.meta.env.VITE_API_URL)
+
   useEffect( () => {
     const getClients = async () =>{
       try {
-        const url="http://localhost:4000/clients"
+        const url=import.meta.env.VITE_API_URL
         const response = await fetch(url)
         const result = await response.json()
         setClients(result)
@@ -20,6 +22,23 @@ const Init = () => {
     }
     getClients()
   }, [])
+
+    const handleDelete = async id => {
+      try {
+          const url=`${import.meta.env.VITE_API_URL}/${id}`  
+          const response = await fetch(url,{
+            method:'DELETE'
+          })
+          await response.json()
+          const arrayClient = clients.filter(client => client.id !== id )
+          setClients(arrayClient)
+      } catch (error) {
+        console.log(error)
+        
+      }
+
+    }
+
   return (
     <div>
       <h1 className='text-4xl text-blue-900 font-bold'>Clients</h1>
@@ -39,6 +58,7 @@ const Init = () => {
                 <Client 
                   key={client.id}
                   client={client}
+                  handleDelete={handleDelete}
                 />
             ))}
         </tbody>

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Login from './layout/Login'
 import AddClient from './pages/AddClient'
 import EditClient from './pages/EditClient'
+import ViewClient from './pages/ViewClient'
 import Layout from './layout/Layout'
 import Init from './pages/Init'
 import LoginForm from './pages/LoginForm'
@@ -20,6 +21,7 @@ function App() {
           <Route index element={<Init/>} />
           <Route path="add" element={<AddClient/>} />
           <Route path="edit/:id" element={<EditClient/>} />
+          <Route path=":id" element={<ViewClient/>} />
 
         </Route>        
 
